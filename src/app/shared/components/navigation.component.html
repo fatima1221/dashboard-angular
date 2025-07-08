@@ -1,0 +1,29 @@
+<nav class="navigation">
+  <div class="nav-container">
+    <div class="nav-left">
+      <div class="nav-items">
+        <a
+          *ngFor="let item of menuItems"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+          class="nav-item"
+        >
+          <span class="nav-icon">{{ item.icon }}</span>
+          {{ item.name }}
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="search-container">
+        <input type="text" placeholder="Search..." class="search-input" />
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <div class="user-profile">
+        <span class="user-avatar">{{ currentUser }}</span>
+      </div>
+    </div>
+  </div>
+</nav>

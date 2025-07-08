@@ -1,0 +1,37 @@
+{
+  "workQueueItems": [
+    {
+      "type": "SM",
+      "name": "Sam Masters",
+      "company": "NAMA's Tech Solutions Data Process",
+      "category": "Underwriter Referral",
+      "status": "New",
+      "created": "04/16/2025",
+      "priority": "high"
+    },
+    {
+      "type": "AW",
+      "name": "Annmarie Willis",
+      "company": "Maritime Logistics Corp USA Limited",
+      "category": "Underwriter Referral",
+      "status": "New",
+      "created": "04/20/2025",
+      "priority": "medium"
+    }
+  ],
+  "portfolioGoals": {
+    "newBusiness": { "current": 67, "target": 100, "color": "#10b981" },
+    "renewals": { "current": 45, "target": 100, "color": "#f59e0b" },
+    "crossSell": { "current": 23, "target": 100, "color": "#ef4444" }
+  },
+  "marketIntelligence": [
+    {
+      "title": "Florida Property Cyber market: -USD 5M loss",
+      "time": "2 hours ago"
+    },
+    {
+      "title": "New reinsurance entering Marine market",
+      "time": "4 hours ago"
+    }
+  ]
+}

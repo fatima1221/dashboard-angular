@@ -1,0 +1,368 @@
+<div class="account-page">
+  <!-- Header Section -->
+  <div class="account-header">
+    <div class="breadcrumb">
+      <span routerLink="/">Dashboard</span> /
+      <span routerLink="/accounts">Accounts</span> /
+      <span>{{ accountInfo.name }}</span>
+    </div>
+
+    <div class="account-info">
+      <div class="account-logo">
+        <span class="logo-initials">ML</span>
+      </div>
+      <div class="account-details">
+        <h1>{{ accountInfo.name }}</h1>
+        <p>{{ accountInfo.address }}<br />{{ accountInfo.city }}</p>
+        <div class="account-meta">
+          <span>{{ accountInfo.accountNumber }}</span> |
+          <span>REGIONS: Marine McLennan</span> |
+          <span>UNDERWRITER: {{ accountInfo.underwriter }}</span>
+        </div>
+      </div>
+      <div class="account-alerts">
+        <div
+          class="alert"
+          *ngFor="let alert of alerts"
+          [class]="'alert-' + alert.type"
+        >
+          {{ alert.message }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="account-content">
+    <!-- Performance Metrics -->
+    <div class="section performance-metrics">
+      <h2>Performance Metrics</h2>
+      <div class="metrics-grid">
+        <div class="metric-card winnability">
+          <div class="metric-label">Winnability</div>
+          <div class="metric-value">
+            {{ performanceMetrics.winnability.value }}
+          </div>
+          <div class="metric-rating">
+            <span
+              *ngFor="let i of [1, 2, 3, 4, 5]"
+              class="star"
+              [class.active]="i <= performanceMetrics.winnability.rating"
+              >★</span
+            >
+          </div>
+          <a href="#" class="metric-link">See all factors →</a>
+        </div>
+
+        <div class="metric-card loss-ratio">
+          <div class="metric-label">Loss Ratio</div>
+          <div class="metric-value">
+            {{ performanceMetrics.lossRatio.value }}
+          </div>
+          <div class="metric-subtitle">
+            {{ performanceMetrics.lossRatio.target }}
+          </div>
+          <a href="#" class="metric-link">View history →</a>
+        </div>
+
+        <div class="metric-card premium-growth">
+          <div class="metric-label">Premium Growth</div>
+          <div class="metric-value">
+            {{ performanceMetrics.premiumGrowth.value }}
+          </div>
+          <div class="metric-subtitle">
+            {{ performanceMetrics.premiumGrowth.growth }}
+          </div>
+          <a href="#" class="metric-link">View trend →</a>
+        </div>
+
+        <div class="metric-card exposure-distribution">
+          <div class="metric-label">Exposure Distribution</div>
+          <div class="exposure-items">
+            <div class="exposure-item">
+              <span class="exposure-color marine-cargo"></span>
+              <span
+                >Marine Cargo:
+                {{ performanceMetrics.exposureDistribution.marineCargo }}%</span
+              >
+            </div>
+            <div class="exposure-item">
+              <span class="exposure-color general-liability"></span>
+              <span
+                >General Liability:
+                {{
+                  performanceMetrics.exposureDistribution.generalLiability
+                }}%</span
+              >
+            </div>
+            <div class="exposure-item">
+              <span class="exposure-color workers-comp"></span>
+              <span
+                >Workers Comp:
+                {{ performanceMetrics.exposureDistribution.workersComp }}%</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policies -->
+    <div class="section policies">
+      <h2>Policies</h2>
+      <div class="policies-list">
+        <div class="policy-item" *ngFor="let policy of policies">
+          <span class="policy-icon" [style.background-color]="policy.color"
+            >📋</span
+          >
+          <div class="policy-info">
+            <div class="policy-type">{{ policy.type }}</div>
+            <div class="policy-status">
+              {{ policy.status }}: {{ policy.effectiveDate }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Status & Compliance -->
+    <div class="section account-status">
+      <h2>Account Status & Compliance</h2>
+      <div class="status-section">
+        <h3>Account Status</h3>
+        <div class="status-timeline">
+          <div class="status-item" *ngFor="let status of accountStatus">
+            <div class="status-circle" [class.completed]="status.completed">
+              <span *ngIf="status.completed">✓</span>
+            </div>
+            <span class="status-label">{{ status.status }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="compliance-section">
+        <h3>Compliance & Documentation</h3>
+        <div class="compliance-list">
+          <div class="compliance-item" *ngFor="let item of complianceItems">
+            <span class="compliance-check" [class.completed]="item.completed">
+              {{ item.completed ? "✓" : "○" }}
+            </span>
+            <span>{{ item.item }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Winnability -->
+    <div class="section winnability full-width">
+      <div class="winnability-header">
+        <h2>Winnability</h2>
+        <div class="winnability-score">
+          <div class="score-circle">
+            <span class="score-value">{{ winnabilityData.overallScore }}%</span>
+            <span class="score-rating">★★★★★</span>
+          </div>
+          <div class="score-trend">
+            <div class="trend-label">Historical trend</div>
+            <div class="trend-chart">
+              <!-- Simple trend visualization -->
+              <div class="trend-line">
+                <span
+                  *ngFor="let point of winnabilityData.historicalTrend"
+                  class="trend-point"
+                  [style.height.px]="point"
+                  >{{ point }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="position-chart">
+            <div class="position-label">Position</div>
+            <div class="position-bars">
+              <div class="position-bar">
+                <label>Your score</label>
+                <div class="bar-bg">
+                  <div
+                    class="bar-fill blue"
+                    [style.width.%]="winnabilityData.position.yourScore"
+                  >
+                    {{ winnabilityData.position.yourScore }}%
+                  </div>
+                </div>
+              </div>
+              <div class="position-bar">
+                <label>Market avg</label>
+                <div class="bar-bg">
+                  <div
+                    class="bar-fill gray"
+                    [style.width.%]="winnabilityData.position.marketAvg"
+                  >
+                    {{ winnabilityData.position.marketAvg }}%
+                  </div>
+                </div>
+              </div>
+              <div class="position-bar">
+                <label>Top competition</label>
+                <div class="bar-bg">
+                  <div
+                    class="bar-fill orange"
+                    [style.width.%]="winnabilityData.position.topCompetition"
+                  >
+                    {{ winnabilityData.position.topCompetition }}%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="winnability-factors">
+        <div class="factors-section">
+          <div class="factors-header">
+            <span class="factor-icon green">↗️</span>
+            <span>Increasing Winnability</span>
+          </div>
+          <div class="factors-list">
+            <div
+              class="factor-item"
+              *ngFor="
+                let factor of winnabilityData.increasingFactors;
+                let i = index
+              "
+            >
+              <div class="factor-number">{{ i + 1 }}</div>
+              <div class="factor-info">
+                <div class="factor-name">{{ factor.factor }}</div>
+                <div class="factor-impact green">{{ factor.impact }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="factors-section">
+          <div class="factors-header">
+            <span class="factor-icon red">↘️</span>
+            <span>Decreasing Winnability</span>
+          </div>
+          <div class="factors-list">
+            <div
+              class="factor-item"
+              *ngFor="
+                let factor of winnabilityData.decreasingFactors;
+                let i = index
+              "
+            >
+              <div class="factor-number">{{ i + 1 }}</div>
+              <div class="factor-info">
+                <div class="factor-name">{{ factor.factor }}</div>
+                <div class="factor-impact red">{{ factor.impact }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-recommendations">
+        <div class="recommendations-header">
+          <span class="ai-icon">🤖</span>
+          <span>AI-Powered Recommendations</span>
+        </div>
+        <div class="recommendations-list">
+          <div class="recommendation-item" *ngFor="let rec of recommendations">
+            <div class="recommendation-content">
+              <h4>{{ rec.title }}</h4>
+              <p>{{ rec.description }}</p>
+            </div>
+            <button class="apply-btn">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communication -->
+    <div class="section communication full-width">
+      <div class="communication-header">
+        <h2>Communication</h2>
+        <div class="communication-filters">
+          <button class="filter-btn">Filter</button>
+          <button class="filter-btn">Sort</button>
+        </div>
+      </div>
+
+      <div class="communication-list">
+        <div class="communication-item" *ngFor="let comm of communications">
+          <div
+            class="comm-status"
+            [class]="'status-' + comm.status.toLowerCase()"
+          >
+            {{ comm.status }}
+          </div>
+          <div class="comm-content">
+            <div class="comm-header">
+              <span class="comm-type">{{ comm.type }}</span>
+              <span class="comm-subject">{{ comm.subject }}</span>
+              <span class="comm-time">{{ comm.timestamp }}</span>
+            </div>
+            <div class="comm-preview">{{ comm.from }}</div>
+            <div class="comm-actions">
+              <span *ngIf="comm.hasAttachments" class="attachment-icon"
+                >📎 3 attachments</span
+              >
+              <button class="reply-btn">Reply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policies Table -->
+    <div class="section policies-table full-width">
+      <h2>Policies</h2>
+      <div class="table-filters">
+        <button class="filter-btn">Filter</button>
+        <button class="filter-btn">Sort</button>
+      </div>
+
+      <div class="policies-data-table">
+        <div class="table-header">
+          <div class="header-cell">POLICY</div>
+          <div class="header-cell">EFFECTIVE</div>
+          <div class="header-cell">EXPIRATION</div>
+          <div class="header-cell">PREMIUM PAID</div>
+          <div class="header-cell">COMM/PREMIUM</div>
+          <div class="header-cell">RENEWAL PREMIUM</div>
+          <div class="header-cell">PERFORMANCE</div>
+          <div class="header-cell">UNDERWRITING MARGIN</div>
+          <div class="header-cell">PERFORMANCE</div>
+          <div class="header-cell"></div>
+        </div>
+
+        <div class="table-row" *ngFor="let policy of policiesTable">
+          <div class="cell policy-name">
+            <span class="policy-color marine-cargo"></span>
+            Marine Cargo
+          </div>
+          <div class="cell">{{ policy.effective }}</div>
+          <div class="cell">{{ policy.expiration }}</div>
+          <div class="cell">{{ policy.premium }}</div>
+          <div class="cell">{{ policy.commission }}</div>
+          <div class="cell">{{ policy.renewal }}</div>
+          <div class="cell">{{ policy.annualTech }}</div>
+          <div class="cell">{{ policy.underwritingMargin }}</div>
+          <div class="cell">
+            <span class="performance" [class]="'trend-' + policy.trend">
+              {{ policy.performance }}
+              <span class="trend-arrow" *ngIf="policy.trend !== 'none'">
+                {{ policy.trend === "up" ? "↗️" : "↘️" }}
+              </span>
+            </span>
+          </div>
+          <div class="cell">
+            <button class="action-btn">ℹ️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
