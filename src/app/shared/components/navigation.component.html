@@ -1,13 +1,26 @@
 <nav class="navigation">
   <div class="nav-container">
     <div class="nav-left">
-      <div class="nav-items">
+      <!-- Mobile Menu Toggle -->
+      <button
+        class="mobile-menu-toggle"
+        [class.active]="isMobileMenuOpen"
+        (click)="toggleMobileMenu()"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <!-- Navigation Items -->
+      <div class="nav-items" [class.mobile-open]="isMobileMenuOpen">
         <a
           *ngFor="let item of menuItems"
           [routerLink]="item.route"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: item.route === '/' }"
           class="nav-item"
+          (click)="closeMobileMenu()"
         >
           <span class="nav-icon">{{ item.icon }}</span>
           {{ item.name }}
@@ -16,14 +29,28 @@
     </div>
 
     <div class="nav-right">
-      <div class="search-container">
+      <!-- Search Container -->
+      <div class="search-container" [class.mobile-hidden]="!isSearchVisible">
         <input type="text" placeholder="Search..." class="search-input" />
         <span class="search-icon">🔍</span>
       </div>
 
+      <!-- Mobile Search Toggle -->
+      <button class="mobile-search-toggle" (click)="toggleSearchVisibility()">
+        🔍
+      </button>
+
+      <!-- User Profile -->
       <div class="user-profile">
         <span class="user-avatar">{{ currentUser }}</span>
       </div>
     </div>
+
+    <!-- Mobile Overlay -->
+    <div
+      class="mobile-overlay"
+      [class.active]="isMobileMenuOpen"
+      (click)="closeMobileMenu()"
+    ></div>
   </div>
 </nav>

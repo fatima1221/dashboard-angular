@@ -1,10 +1,11 @@
-@import "../../../styles/variables";
+@use "../../../styles/variables" as *;
 
 .navigation {
   background: $secondary-bg;
   border-bottom: 1px solid $tertiary-bg;
   padding: 0 $spacing-lg;
   height: $nav-height;
+  position: relative;
 }
 
 .nav-container {
@@ -14,6 +15,32 @@
   height: 100%;
   max-width: $container-max-width;
   margin: 0 auto;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+// Mobile Menu Toggle
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: $spacing-sm;
+  margin-right: $spacing-md;
+
+  .hamburger-line {
+    width: 24px;
+    height: 3px;
+    background: $text-primary;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
 }
 
 .nav-items {
@@ -32,6 +59,7 @@
   align-items: center;
   gap: $spacing-sm;
   transition: all 0.2s ease;
+  white-space: nowrap;
 
   &:hover {
     color: $text-primary;
@@ -80,6 +108,21 @@
   color: $text-muted;
 }
 
+.mobile-search-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: $text-secondary;
+  font-size: 18px;
+  cursor: pointer;
+  padding: $spacing-sm;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
 .user-avatar {
   background: $primary-blue;
   color: $text-primary;
@@ -91,4 +134,165 @@
   justify-content: center;
   font-weight: 600;
   font-size: $font-size-sm;
+}
+
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+
+  &.active {
+    display: block;
+  }
+}
+
+// Responsive Styles
+@media (max-width: 1200px) {
+  .nav-items {
+    gap: $spacing-lg;
+  }
+
+  .nav-item {
+    padding: $spacing-sm;
+    font-size: $font-size-xs;
+  }
+
+  .search-input {
+    width: 200px;
+  }
+}
+
+@media (max-width: 992px) {
+  .nav-items {
+    gap: $spacing-md;
+  }
+
+  .nav-item {
+    .nav-icon {
+      display: none;
+    }
+  }
+
+  .search-input {
+    width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation {
+    padding: 0 $spacing-md;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .mobile-search-toggle {
+    display: block;
+  }
+
+  .search-container {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: $spacing-md;
+    background: $secondary-bg;
+    border: 1px solid $tertiary-bg;
+    border-radius: $border-radius-sm;
+    padding: $spacing-md;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+
+    &.mobile-hidden {
+      display: none;
+    }
+
+    &:not(.mobile-hidden) {
+      display: block;
+    }
+
+    .search-input {
+      width: 200px;
+    }
+  }
+
+  .nav-items {
+    position: fixed;
+    top: $nav-height;
+    left: -300px;
+    width: 280px;
+    height: calc(100vh - #{$nav-height});
+    background: $secondary-bg;
+    border-right: 1px solid $tertiary-bg;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: $spacing-lg;
+    gap: $spacing-sm;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 999;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
+
+    &.mobile-open {
+      left: 0;
+    }
+  }
+
+  .nav-item {
+    width: 100%;
+    padding: $spacing-md;
+    margin: 0;
+    border-radius: $border-radius-sm;
+
+    .nav-icon {
+      display: inline;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation {
+    padding: 0 $spacing-sm;
+  }
+
+  .nav-container {
+    gap: $spacing-sm;
+  }
+
+  .nav-items {
+    width: 260px;
+    padding: $spacing-md;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: $font-size-xs;
+  }
+
+  .search-container .search-input {
+    width: 180px;
+  }
+}
+
+// Animation for hamburger menu
+@media (max-width: 768px) {
+  .mobile-menu-toggle.active {
+    .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+  }
 }

@@ -1,375 +1,511 @@
+@use "sass:color";
+@use "../../../styles/variables" as *;
+
 .dashboard {
-  background: #0f1219;
+  background: $primary-bg;
   min-height: 100vh;
-  color: #ffffff;
-  padding: 24px;
+  color: $text-primary;
+  padding: $spacing-lg;
 }
 
 .dashboard-header h1 {
   font-size: 24px;
   font-weight: 500;
-  color: #ffffff;
-  margin: 0 0 32px 0;
+  color: $text-primary;
+  margin: 0 0 $spacing-xl 0;
 }
 
+// Main Content Layout
 .dashboard-content {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 24px;
-  margin-bottom: 32px;
+  grid-template-columns: 1fr 300px 300px;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
 }
 
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.section {
-  background: #1a1d29;
-  border-radius: 12px;
-  border: 1px solid #2a2d3a;
+// Work Queue Section
+.work-queue-section {
+  background: $secondary-bg;
+  border-radius: $border-radius-lg;
+  border: 1px solid $tertiary-bg;
   overflow: hidden;
 }
 
 .section-header {
-  padding: 20px 24px;
-  border-bottom: 1px solid #2a2d3a;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $tertiary-bg;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
 
-.section-header h2 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0;
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0;
+  }
 }
 
 .tabs {
   display: flex;
-  gap: 8px;
+  gap: $spacing-sm;
 }
 
 .tab {
   background: none;
   border: none;
-  color: #9ca3af;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
+  color: $text-secondary;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
   cursor: pointer;
   transition: all 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba($primary-blue, 0.1);
+  }
+
+  &.active {
+    background: $primary-blue;
+    color: $text-primary;
+  }
 }
 
-.tab.active {
-  background: #3b82f6;
-  color: #ffffff;
-}
+// Work Queue Table
+.work-queue-table {
+  .table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 50px;
+    background: $tertiary-bg;
+    padding: $spacing-md $spacing-lg;
+    border-bottom: 1px solid $border-color;
 
-.work-queue-table,
-.accounts-table {
-  width: 100%;
-}
+    .header-cell {
+      font-size: $font-size-xs;
+      font-weight: 600;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
 
-.table-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  background: #2a2d3a;
-  padding: 16px 24px;
-  border-bottom: 1px solid #374151;
-}
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 50px;
+    padding: $spacing-md $spacing-lg;
+    border-bottom: 1px solid $tertiary-bg;
+    align-items: center;
+    transition: background 0.2s ease;
 
-.accounts-table .table-header {
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 50px;
-}
-
-.header-cell {
-  font-size: 12px;
-  font-weight: 600;
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.table-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  padding: 16px 24px;
-  border-bottom: 1px solid #2a2d3a;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.accounts-table .table-row {
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 50px;
-}
-
-.table-row:hover {
-  background: #2a2d3a;
+    &:hover {
+      background: $tertiary-bg;
+    }
+  }
 }
 
 .cell {
-  font-size: 14px;
-  color: #ffffff;
+  font-size: $font-size-sm;
+  color: $text-primary;
 }
 
-.assignee-info,
-.account-name {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.assignee-cell,
+.account-name-cell {
+  .assignee-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
 
-.assignee-avatar,
-.account-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
-  color: #ffffff;
+  .assignee-avatar,
+  .account-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    flex-shrink: 0;
+  }
+
+  .assignee-details,
+  .account-details {
+    flex: 1;
+
+    .assignee-name,
+    .account-name {
+      font-weight: 500;
+      color: $text-primary;
+      margin-bottom: 4px;
+      font-size: $font-size-sm;
+    }
+
+    .assignee-company,
+    .account-renewal {
+      font-size: $font-size-xs;
+      color: $text-secondary;
+    }
+  }
 }
 
 .priority-high {
-  background: #ef4444;
+  background: $primary-red;
 }
 .priority-medium {
-  background: #f59e0b;
+  background: $primary-yellow;
 }
 .priority-low {
-  background: #10b981;
-}
-.priority-critical {
-  background: #dc2626;
-}
-
-.assignee-details,
-.account-details {
-  flex: 1;
-}
-
-.assignee-name,
-.account-title {
-  font-weight: 500;
-  color: #ffffff;
-  margin-bottom: 4px;
-}
-
-.assignee-company,
-.account-renewal {
-  font-size: 12px;
-  color: #9ca3af;
+  background: $primary-green;
 }
 
 .status-badge {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
+  padding: 4px $spacing-sm;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
   gap: 4px;
+
+  &.status-new {
+    background: rgba($primary-blue, 0.2);
+    color: $primary-blue;
+  }
+  &.status-pending-review {
+    background: rgba($primary-yellow, 0.2);
+    color: $primary-yellow;
+  }
+  &.status-completed {
+    background: rgba($primary-green, 0.2);
+    color: $primary-green;
+  }
 }
 
-.status-new {
-  background: #3b82f6;
-  color: #ffffff;
-}
-.status-pending-review {
-  background: #f59e0b;
-  color: #000000;
-}
-.status-completed {
-  background: #10b981;
-  color: #ffffff;
-}
-.status-active {
-  background: #10b981;
-  color: #ffffff;
-}
-.status-vand-renew {
-  background: #f59e0b;
-  color: #000000;
-}
-
-.priority-badge {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.action-btn {
+.info-btn {
   background: none;
   border: none;
-  color: #9ca3af;
+  color: $text-secondary;
   font-size: 16px;
   cursor: pointer;
   padding: 4px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+  }
 }
 
-.portfolio-goals {
-  padding: 24px;
-}
-
-.goals-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.goal-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.goal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: #9ca3af;
-}
-
-.goal-amount {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.progress-bar {
-  height: 8px;
-  background: #2a2d3a;
-  border-radius: 4px;
+// Portfolio Goals Section
+.portfolio-goals-section {
+  background: $secondary-bg;
+  border-radius: $border-radius-lg;
+  border: 1px solid $tertiary-bg;
   overflow: hidden;
 }
 
-.progress-fill {
-  height: 100%;
-  transition: width 0.3s ease;
-}
-
-.quick-actions {
-  padding: 24px;
-}
-
-.actions-grid {
+// Actions and Intelligence Section
+.actions-intelligence-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $spacing-lg;
 }
 
-.action-btn-large {
-  background: #3b82f6;
-  color: #ffffff;
+.quick-actions-section,
+.market-intelligence-section {
+  background: $secondary-bg;
+  border-radius: $border-radius-lg;
+  border: 1px solid $tertiary-bg;
+  overflow: hidden;
+}
+
+// Portfolio Goals
+.goals-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.goal-item {
+  .goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-sm;
+
+    .goal-label {
+      font-size: $font-size-xs;
+      font-weight: 600;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .goal-amount {
+      font-size: $font-size-md;
+      font-weight: 700;
+      color: $text-primary;
+    }
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: $tertiary-bg;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .progress-fill {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+  }
+}
+
+// Quick Actions
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.action-btn {
+  background: $primary-blue;
+  color: $text-primary;
   border: none;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: $spacing-md;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: left;
+
+  &:hover {
+    background: color.adjust($primary-blue, $lightness: -10%);
+  }
 }
 
-.action-btn-large:hover {
-  background: #2563eb;
-}
-
-.market-intelligence {
-  padding: 24px;
-}
-
+// Market Intelligence
 .intelligence-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: $spacing-md;
 }
 
 .intelligence-item {
-  padding: 16px;
-  background: #2a2d3a;
-  border-radius: 8px;
+  .intelligence-content {
+    .intelligence-title {
+      font-size: $font-size-sm;
+      color: $text-primary;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .intelligence-time {
+      font-size: $font-size-xs;
+      color: $text-secondary;
+    }
+  }
 }
 
-.intelligence-title {
-  font-size: 14px;
-  color: #ffffff;
-  margin-bottom: 4px;
+// My Accounts Section
+.my-accounts-section {
+  background: $secondary-bg;
+  border-radius: $border-radius-lg;
+  border: 1px solid $tertiary-bg;
+  overflow: hidden;
 }
 
-.intelligence-time {
-  font-size: 12px;
-  color: #9ca3af;
-}
+.accounts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $tertiary-bg;
 
-.my-accounts {
-  grid-column: 1 / -1;
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0;
+  }
 }
 
 .account-filters {
   display: flex;
-  gap: 8px;
+  gap: $spacing-sm;
 }
 
 .filter-btn {
-  background: #2a2d3a;
-  color: #9ca3af;
-  border: 1px solid #374151;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
+  background: $tertiary-bg;
+  color: $text-secondary;
+  border: 1px solid $border-color;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
   cursor: pointer;
   transition: all 0.2s ease;
+
+  &:hover {
+    background: $border-color;
+    color: $text-primary;
+  }
+
+  &.active {
+    background: $primary-blue;
+    color: $text-primary;
+    border-color: $primary-blue;
+  }
 }
 
-.filter-btn.active {
-  background: #3b82f6;
-  color: #ffffff;
-  border-color: #3b82f6;
+// Accounts Table
+.accounts-table {
+  .table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 50px;
+    background: $tertiary-bg;
+    padding: $spacing-md $spacing-lg;
+    border-bottom: 1px solid $border-color;
+
+    .header-cell {
+      font-size: $font-size-xs;
+      font-weight: 600;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 50px;
+    padding: $spacing-md $spacing-lg;
+    border-bottom: 1px solid $tertiary-bg;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: $tertiary-bg;
+    }
+  }
 }
 
-.vulnerability-indicator {
+.stage-badge {
+  padding: 4px $spacing-sm;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &.stage-bind {
+    background: rgba($primary-blue, 0.2);
+    color: $primary-blue;
+  }
+  &.stage-quote {
+    background: rgba($primary-yellow, 0.2);
+    color: $primary-yellow;
+  }
+}
+
+.triage-badge {
+  padding: 4px $spacing-sm;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  &.triage-active {
+    background: rgba($primary-green, 0.2);
+    color: $primary-green;
+  }
+  &.triage-vand-renew {
+    background: rgba($primary-yellow, 0.2);
+    color: $primary-yellow;
+  }
+}
+
+.vulnerability-display {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: $spacing-sm;
+
+  .vulnerability-bars {
+    display: flex;
+    gap: 2px;
+
+    .bar {
+      width: 4px;
+      height: 16px;
+      background: $border-color;
+      border-radius: 2px;
+
+      &.active {
+        background: $primary-green;
+      }
+    }
+  }
+
+  .vulnerability-text {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
 }
 
-.vulnerability-bars {
-  display: flex;
-  gap: 2px;
-}
-
-.bar {
-  width: 4px;
-  height: 16px;
-  background: #374151;
-  border-radius: 2px;
-}
-
-.bar.active {
-  background: #10b981;
-}
-
-.vulnerability-text {
-  font-size: 12px;
-  color: #9ca3af;
-}
-
+// Responsive Design
 @media (max-width: 1200px) {
+  .dashboard-content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .actions-intelligence-section {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-lg;
+  }
+}
+
+@media (max-width: 900px) {
   .dashboard-content {
     grid-template-columns: 1fr;
   }
 
-  .right-column {
-    grid-row: 1;
+  .actions-intelligence-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: $spacing-md;
+  }
+
+  .work-queue-table .table-header,
+  .work-queue-table .table-row {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+
+  .accounts-table .table-header,
+  .accounts-table .table-row {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+
+  .accounts-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
   }
 }

@@ -1,11 +1,13 @@
 <div class="dashboard">
+  <!-- Header -->
   <div class="dashboard-header">
     <h1>Hi {{ currentUser }}, welcome! You have {{ openTasks }} open tasks.</h1>
   </div>
 
+  <!-- Main Content -->
   <div class="dashboard-content">
     <!-- Work Queue Section -->
-    <div class="section work-queue">
+    <div class="work-queue-section">
       <div class="section-header">
         <h2>Work Queue</h2>
         <div class="tabs">
@@ -13,6 +15,7 @@
             *ngFor="let tab of workQueueTabs"
             class="tab"
             [class.active]="tab.active"
+            (click)="setActiveTab(tab)"
           >
             {{ tab.name }}
           </button>
@@ -29,12 +32,12 @@
         </div>
 
         <div class="table-row" *ngFor="let item of workQueueItems">
-          <div class="cell assignee">
+          <div class="cell assignee-cell">
             <div class="assignee-info">
               <span
                 class="assignee-avatar"
                 [class]="'priority-' + item.priority"
-                >{{ item.type }}</span
+                >{{ item.initials }}</span
               >
               <div class="assignee-details">
                 <div class="assignee-name">{{ item.name }}</div>
@@ -42,7 +45,7 @@
               </div>
             </div>
           </div>
-          <div class="cell">{{ item.category }}</div>
+          <div class="cell">{{ item.type }}</div>
           <div class="cell">
             <span
               class="status-badge"
@@ -53,78 +56,91 @@
           </div>
           <div class="cell">{{ item.created }}</div>
           <div class="cell">
-            <button class="action-btn">ℹ️</button>
+            <button class="info-btn">ℹ️</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Right Column -->
-    <div class="right-column">
-      <!-- Portfolio Goals -->
-      <div class="section portfolio-goals">
-        <div class="section-header">
-          <h2>Portfolio goals</h2>
+    <!-- Portfolio Goals Section -->
+    <div class="portfolio-goals-section">
+      <div class="section-header">
+        <h2>Portfolio goals</h2>
+      </div>
+      <div class="goals-content">
+        <div class="goal-item">
+          <div class="goal-header">
+            <span class="goal-label">NEW BUSINESS TARGET</span>
+            <span class="goal-amount"
+              >${{ portfolioGoals.newBusiness.target }}M</span
+            >
+          </div>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="portfolioGoals.newBusiness.progress"
+              style="
+                background: linear-gradient(
+                  to right,
+                  #10b981,
+                  #f59e0b,
+                  #ef4444
+                );
+              "
+            ></div>
+          </div>
         </div>
-        <div class="goals-content">
-          <div class="goal-item">
-            <div class="goal-header">
-              <span>NEW BUSINESS TARGET</span>
-              <span class="goal-amount">$37M</span>
-            </div>
-            <div class="progress-bar">
-              <div
-                class="progress-fill"
-                [style.width.%]="portfolioGoals.newBusiness.current"
-                [style.background-color]="portfolioGoals.newBusiness.color"
-              ></div>
-            </div>
-          </div>
 
-          <div class="goal-item">
-            <div class="goal-header">
-              <span>RENEWAL TARGET</span>
-              <span class="goal-amount">$67M</span>
-            </div>
-            <div class="progress-bar">
-              <div
-                class="progress-fill"
-                [style.width.%]="portfolioGoals.renewals.current"
-                [style.background-color]="portfolioGoals.renewals.color"
-              ></div>
-            </div>
+        <div class="goal-item">
+          <div class="goal-header">
+            <span class="goal-label">RENEWAL TARGET</span>
+            <span class="goal-amount"
+              >${{ portfolioGoals.renewal.target }}M</span
+            >
           </div>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="portfolioGoals.renewal.progress"
+              style="background: linear-gradient(to right, #f59e0b, #ef4444)"
+            ></div>
+          </div>
+        </div>
 
-          <div class="goal-item">
-            <div class="goal-header">
-              <span>CROSS-SELL TARGET</span>
-              <span class="goal-amount">$34M</span>
-            </div>
-            <div class="progress-bar">
-              <div
-                class="progress-fill"
-                [style.width.%]="portfolioGoals.crossSell.current"
-                [style.background-color]="portfolioGoals.crossSell.color"
-              ></div>
-            </div>
+        <div class="goal-item">
+          <div class="goal-header">
+            <span class="goal-label">CROSS-SELL TARGET</span>
+            <span class="goal-amount"
+              >${{ portfolioGoals.crossSell.target }}M</span
+            >
+          </div>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="portfolioGoals.crossSell.progress"
+              style="background: linear-gradient(to right, #10b981, #f59e0b)"
+            ></div>
           </div>
         </div>
       </div>
+    </div>
 
+    <!-- Quick Actions and Market Intelligence Section -->
+    <div class="actions-intelligence-section">
       <!-- Quick Actions -->
-      <div class="section quick-actions">
+      <div class="quick-actions-section">
         <div class="section-header">
           <h2>Quick actions</h2>
         </div>
-        <div class="actions-grid">
-          <button class="action-btn-large" *ngFor="let action of quickActions">
+        <div class="actions-list">
+          <button class="action-btn" *ngFor="let action of quickActions">
             {{ action }}
           </button>
         </div>
       </div>
 
       <!-- Market Intelligence -->
-      <div class="section market-intelligence">
+      <div class="market-intelligence-section">
         <div class="section-header">
           <h2>Market intelligence</h2>
         </div>
@@ -144,8 +160,8 @@
   </div>
 
   <!-- My Accounts Section -->
-  <div class="section my-accounts">
-    <div class="section-header">
+  <div class="my-accounts-section">
+    <div class="accounts-header">
       <h2>My accounts</h2>
       <div class="account-filters">
         <button class="filter-btn">Filter</button>
@@ -173,77 +189,47 @@
         *ngFor="let account of myAccounts"
         (click)="navigateToAccount(account)"
       >
-        <div class="cell account-name">
-          <span class="account-avatar">{{ account.type }}</span>
+        <div class="cell account-name-cell">
+          <span class="account-avatar">{{ account.initials }}</span>
           <div class="account-details">
-            <div class="account-title">{{ account.name }}</div>
+            <div class="account-name">{{ account.name }}</div>
             <div class="account-renewal">Renewal: {{ account.renewal }}</div>
           </div>
         </div>
         <div class="cell">{{ account.line }}</div>
         <div class="cell">{{ account.underwriter }}</div>
-        <div class="cell">{{ account.premium }}</div>
-        <div class="cell">{{ account.commission }}</div>
+        <div class="cell">{{ account.listening }}</div>
+        <div class="cell">{{ account.appetite }}</div>
         <div class="cell">
           <span
-            class="priority-badge"
-            [class]="'priority-' + account.priority.toLowerCase()"
+            class="stage-badge"
+            [class]="'stage-' + account.stage.toLowerCase()"
           >
-            {{ account.priority }}
+            {{ account.stage }}
           </span>
         </div>
         <div class="cell">
           <span
-            class="status-badge"
-            [class]="'status-' + account.status.toLowerCase().replace(' ', '-')"
+            class="triage-badge"
+            [class]="'triage-' + account.triage.toLowerCase().replace(' ', '-')"
           >
-            ● {{ account.status }}
+            ● {{ account.triage }}
           </span>
         </div>
         <div class="cell">
-          <div class="vulnerability-indicator">
+          <div class="vulnerability-display">
             <div class="vulnerability-bars">
               <div
                 class="bar"
-                [class.active]="account.vulnerability === 'High'"
-              ></div>
-              <div
-                class="bar"
-                [class.active]="
-                  account.vulnerability === 'Medium' ||
-                  account.vulnerability === 'High'
-                "
-              ></div>
-              <div
-                class="bar"
-                [class.active]="
-                  account.vulnerability === 'Low' ||
-                  account.vulnerability === 'Medium' ||
-                  account.vulnerability === 'High'
-                "
-              ></div>
-              <div
-                class="bar"
-                [class.active]="
-                  account.vulnerability === 'Low' ||
-                  account.vulnerability === 'Medium' ||
-                  account.vulnerability === 'High'
-                "
-              ></div>
-              <div
-                class="bar"
-                [class.active]="
-                  account.vulnerability === 'Low' ||
-                  account.vulnerability === 'Medium' ||
-                  account.vulnerability === 'High'
-                "
+                *ngFor="let i of [1, 2, 3, 4, 5]"
+                [class.active]="i <= account.vulnerabilityLevel"
               ></div>
             </div>
             <span class="vulnerability-text">{{ account.vulnerability }}</span>
           </div>
         </div>
         <div class="cell">
-          <button class="action-btn">ℹ️</button>
+          <button class="info-btn">ℹ️</button>
         </div>
       </div>
     </div>
